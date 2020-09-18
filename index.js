@@ -19,6 +19,7 @@ function rela0 (){
 setSwipe("#text");
 
 let now = 0;
+console.log("変更しました");
 
 function setSwipe(elem) {
     let t = document.querySelector(elem);
@@ -26,7 +27,7 @@ function setSwipe(elem) {
     let startY;        // タッチ開始 y座標
     let moveX;    // スワイプ中の x座標
     let moveY;    // スワイプ中の y座標
-    let dist = 30;    // スワイプを感知する最低距離（ピクセル単位）
+    let dist = 100;    // スワイプを感知する最低距離（ピクセル単位）
      
     // タッチ開始時： xy座標を取得
     t.addEventListener("touchstart", function(e) {
