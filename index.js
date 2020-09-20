@@ -1,5 +1,7 @@
+console.log("abcdefghijklmnopqrstuvwxyz");
+
 let rela = 0;
-$("#text").click(function () {
+$(".box").click(function () {
     if(rela === 0) {
         $("#text").css("transform","rotate3d(0,1,0,90deg)");
         setTimeout(rela0 , 300);
@@ -16,10 +18,9 @@ function rela0 (){
     $("#text").css("color","black");
 }
 
-setSwipe("#text");
+setSwipe(".box");
 
 let now = 0;
-console.log("変更しました");
 
 function setSwipe(elem) {
     let t = document.querySelector(elem);
@@ -27,7 +28,7 @@ function setSwipe(elem) {
     let startY;        // タッチ開始 y座標
     let moveX;    // スワイプ中の x座標
     let moveY;    // スワイプ中の y座標
-    let dist = 100;    // スワイプを感知する最低距離（ピクセル単位）
+    let dist = 40;    // スワイプを感知する最低距離（ピクセル単位）
      
     // タッチ開始時： xy座標を取得
     t.addEventListener("touchstart", function(e) {
@@ -47,14 +48,25 @@ function setSwipe(elem) {
     t.addEventListener("touchend", function(e) {
         if (startX > moveX && startX > moveX + dist) {        // 右から左にスワイプ
             // 右から左にスワイプした時の処理
-            now--;
-            $('#text').text(now);
-        }
-        else if (startX < moveX && startX + dist < moveX) {    // 左から右にスワイプ
-            // 左から右にスワイプした時の処理
             now++;
             $('#text').text(now);
             question2();
+        }
+        else if (startX < moveX && startX + dist < moveX) {    // 左から右にスワイプ
+            // 左から右にスワイプした時の処理
+            now--;
+            $('#text').text(now);
+        }
+        else{    // 左から右にスワイプ
+            // 左から右にスワイプした時の処理
+            if(rela === 0) {
+                $("#text").css("transform","rotate3d(0,1,0,90deg)");
+                setTimeout(rela0 , 300);
+                rela++;
+            }else if(rela === 1){
+                
+                rela--;
+            }
         }
     });
 }
