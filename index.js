@@ -1,114 +1,3 @@
-console.log("abcdefghijklmnopqrstuvwxyz");
-
-let rela = 0;
-$(".box").click(function () {
-    if(rela === 0) {
-        $("#text").css("transform","rotate3d(0,1,0,90deg)");
-        setTimeout(rela0 , 300);
-        rela++;
-    }else if(rela === 1){
-        
-        rela--;
-    }
-});
-
-function rela0 (){
-    $("#text").text(words[num2-1][0]);
-    $("#text").css("transform","rotate3d(0,0,0,90deg)");
-    $("#text").css("color","black");
-}
-
-setSwipe(".box");
-
-let now = 0;
-
-function setSwipe(elem) {
-    let t = document.querySelector(elem);
-    let startX;        // タッチ開始 x座標
-    let startY;        // タッチ開始 y座標
-    let moveX;    // スワイプ中の x座標
-    let moveY;    // スワイプ中の y座標
-    let dist = 40;    // スワイプを感知する最低距離（ピクセル単位）
-     
-    // タッチ開始時： xy座標を取得
-    t.addEventListener("touchstart", function(e) {
-        e.preventDefault();
-        startX = e.touches[0].pageX;
-        startY = e.touches[0].pageY;
-    });
-     
-    // スワイプ中： xy座標を取得
-    t.addEventListener("touchmove", function(e) {
-        e.preventDefault();
-        moveX = e.changedTouches[0].pageX;
-        moveY = e.changedTouches[0].pageY;
-    });
-     
-    // タッチ終了時： スワイプした距離から左右どちらにスワイプしたかを判定する/距離が短い場合何もしない
-    t.addEventListener("touchend", function(e) {
-        if (startX > moveX && startX > moveX + dist) {        // 右から左にスワイプ
-            // 右から左にスワイプした時の処理
-            now++;
-            $('#text').text(now);
-            question2();
-        }
-        else if (startX < moveX && startX + dist < moveX) {    // 左から右にスワイプ
-            // 左から右にスワイプした時の処理
-            now--;
-            $('#text').text(now);
-        }
-        else{    // 左から右にスワイプ
-            // 左から右にスワイプした時の処理
-            if(rela === 0) {
-                $("#text").css("transform","rotate3d(0,1,0,90deg)");
-                setTimeout(rela0 , 300);
-                rela++;
-            }else if(rela === 1){
-                
-                rela--;
-            }
-        }
-    });
-}
-
-let select1 = 0;
-let select2 = 0;
-let answer = 0;
-let num2 = 0;
-
-function select()
-  {
-	  select1=x;
-	  select2=y;
-  }
-
-
-function question2 ()
-  {
-	  /*if(iq+select1>select2)
-	  {
-		  $(".box_Q").fadeOut(); setTimeout('$(".result").fadeIn();',500);
-		  $("#correct").text(ok);
-		  $("#incorrect").text((y-x+1)-ok);
-		  $("#par").text(Math.floor((ok/i1)*100));
-		  return false;
-	  }
-	  alert1();*/
-	  select();
-	  num2=now+select1;
-	  
-      $("#text").text(words[num2-1][1]);
-      console.log(words[num2-1][1]);
-	  //ur = words[num2-1][0];
-	  //url = 'https://www.google.com/search?rlz=1C5CHFA_enJP892JP892&sxsrf=ALeKk00q8VFxTZwYwqx8jw6cM6r5cc74hQ%3A1598150874115&ei=2thBX8fKBs-JoAT_6LX4DA&q='+ur+'+発音';
-	  //$("#WN").text("No."+(num2));
-	  answer = words[num2-1][0];
-	  //document.form.reset();
-  }
-
-let x = 1;
-let y = 100;
-
 let words =
    [
    ["agree","賛成する"],["oppose","反対する"],["advise","忠告する"],["tip","助言"],["discuss","ついて話し合う"],
@@ -216,3 +105,140 @@ let words =
    ["tax","税金"], ["expense","費用"], ["debt","借金"], ["deposit","預金"], ["charge","料金"],
    ["wage","賃金"], ["recession","不況"], ["consume","消費する"], ["waste","浪費する"], ["invest","投資する"]
    ];
+
+
+var x = 1;
+var y = 10;
+
+var new_words = [];
+
+choose(x-1,y);
+
+
+function choose(sx,sy) {
+    for(let i=0 ; i < sy-sx ; i++){
+        new_words.push([words[i+sx][1],words[i+sx][0]]);
+        console.log(new_words[i]);
+    }
+}
+
+//キーの処理
+var number = -1;
+
+window.addEventListener("keydown", handleKeydown);
+
+function handleKeydown(event){
+  // キーコード
+  var keyCode = event.keyCode;
+  console.log("押されたキーのコード : " + keyCode);
+
+    if(keyCode == 39 || keyCode == 68 || keyCode == 13) {
+        if(number-1 < y){
+            $(".box").css("transform","rotateY(-90deg)");
+            setTimeout("k39()",300);
+        }
+    }
+
+    if(keyCode == 37|| keyCode == 65 || keyCode == 8) {
+        $(".box").css("transform","rotateY(90deg)");
+        setTimeout("k37()",300);
+    }
+
+    if(keyCode == 38 || keyCode == 40 || keyCode == 87 || keyCode == 83 || keyCode == 32) {
+        $(".box").css("transform","rotateX(90deg)");
+        rotate();
+    }
+
+}
+
+function k39() {
+    number++;
+    $("#text").text(new_words[number][0]);
+    $("#text").css("color","black");
+    rela = 0;
+    $(".box").css("transform","rotateY(0deg)");
+}
+function k37() {
+    number--;
+    $("#text").text(new_words[number][0]);
+    $("#text").css("color","black");
+    rela = 0;
+    $(".box").css("transform","rotateY(0deg)");
+}
+
+
+//スワイプ　タップ　の処理
+setSwipe(".box");
+
+function setSwipe(elem) {
+    let t = document.querySelector(elem);
+    let startX;        // タッチ開始 x座標
+    let startY;        // タッチ開始 y座標
+    let moveX;    // スワイプ中の x座標
+    let moveY;    // スワイプ中の y座標
+    let dist = 30;    // スワイプを感知する最低距離（ピクセル単位）
+     
+    // タッチ開始時： xy座標を取得
+    t.addEventListener("touchstart", function(e) {
+        e.preventDefault();
+        startX = e.touches[0].pageX;
+        startY = e.touches[0].pageY;
+    });
+     
+    // スワイプ中： xy座標を取得
+    t.addEventListener("touchmove", function(e) {
+        e.preventDefault();
+        moveX = e.changedTouches[0].pageX;
+        moveY = e.changedTouches[0].pageY;
+    });
+     
+    // タッチ終了時： スワイプした距離から左右どちらにスワイプしたかを判定する/距離が短い場合何もしない
+    t.addEventListener("touchend", function(e) {
+        if (startX > moveX && startX > moveX + dist) {        // 右から左にスワイプ
+            // 右から左にスワイプした時の処理
+            $(".box").css("transform","rotateY(-90deg)");
+            setTimeout("k39()",300);
+        }
+        else if (startX < moveX && startX + dist < moveX) {    // 左から右にスワイプ
+            // 左から右にスワイプした時の処理
+            $(".box").css("transform","rotateY(90deg)");
+            setTimeout("k37()",300);
+        }
+    });
+}
+
+
+var rela = 0;
+
+function rotate() {
+    if(rela === 0) {
+
+        $(".box").css("transform","rotateX(90deg)");
+        setTimeout(rela0 , 300);
+        $("#text").css("color","red");
+        
+        rela++;
+
+    }else if(rela === 1){
+
+        $(".box").css("transform","rotateX(90deg)");
+        setTimeout(rela1 , 300);
+        $("#text").css("color","black");
+        
+        rela--;
+
+    }
+}
+
+function rela0 (){
+    console.log(number);
+    $(".box").css("transform","rotateY(0deg)");
+    $("#text").text(new_words[number][1]);
+}
+
+function rela1 (){
+    $("#text").text(new_words[number][0]);
+    $(".box").css("transform","rotateY(0deg)");
+}
+
+console.log("更新完了です😌");
