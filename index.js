@@ -242,4 +242,4 @@ function rela1 (){
     $(".box").css("transform","rotateY(0deg)");
 }
 
-console.log("更新完了です😌");
+console.log("更新完了です!");
