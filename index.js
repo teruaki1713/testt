@@ -1,3 +1,4 @@
+
 let words =
    [
    ["agree","賛成する"],["oppose","反対する"],["advise","忠告する"],["tip","助言"],["discuss","ついて話し合う"],
