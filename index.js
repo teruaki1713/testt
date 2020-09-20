@@ -158,6 +158,7 @@ function k39() {
     rela = 0;
     $(".box").css("transform","rotateY(0deg)");
 }
+
 function k37() {
     number--;
     $("#text").text(new_words[number][0]);
