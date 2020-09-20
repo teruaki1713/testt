@@ -158,7 +158,6 @@ function k39() {
     rela = 0;
     $(".box").css("transform","rotateY(0deg)");
 }
-
 function k37() {
     number--;
     $("#text").text(new_words[number][0]);
@@ -169,7 +168,12 @@ function k37() {
 
 
 //スワイプ　タップ　の処理
-setSwipe(".box");
+
+
+$(document).on('touchmove', function() {
+    // スワイプしたときのイベント
+    setSwipe(".box");
+});
 
 function setSwipe(elem) {
     let t = document.querySelector(elem);
@@ -209,6 +213,14 @@ function setSwipe(elem) {
 }
 
 
+
+$(document).on('touchstart', function() {
+    // タップしたときのイベント
+    $(".box").css("touchend","rotateX(90deg)");
+    rotate();
+});
+
+
 var rela = 0;
 
 function rotate() {
@@ -241,5 +253,4 @@ function rela1 (){
     $("#text").text(new_words[number][0]);
     $(".box").css("transform","rotateY(0deg)");
 }
-
-console.log("更新完了です!");
+console.log("更新完了です!ｋｊふぃえじ");
