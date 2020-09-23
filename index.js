@@ -108,6 +108,10 @@ let words =
    ["wage","賃金"], ["recession","不況"], ["consume","消費する"], ["waste","浪費する"], ["invest","投資する"]
    ];
 
+//高さの指定
+var main_height = window.innerHeight;
+$('main').css("height",main_height);
+
 //処理
 var x = 1;
 var y = 100;
