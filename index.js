@@ -1,3 +1,4 @@
+console.log("JavaScriptは有効です。");
 
 let words =
    [
@@ -107,25 +108,116 @@ let words =
    ["wage","賃金"], ["recession","不況"], ["consume","消費する"], ["waste","浪費する"], ["invest","投資する"]
    ];
 
-
+//処理
 var x = 1;
-var y = 10;
+var y = 100;
 
-var new_words = [];
+for (var i=0; i < (y - x)+1 ; i++){
+    $('main').append('<div class="box page" id="page'+(x+i-1)+'"><h1 class="text" id="text'+(x+i-1)+'">'+words[x+i-1][0]+'</h1></div>');
+    if(i>0){
+        console.log(x+i);
+        $('div#page'+i).css("display","none");
+    }
+}
 
-choose(x-1,y);
+//進む、戻る、裏返す
+var now =0;
+var ii = 0;
 
+//切り替え
+function draw_after(){
+    console.log(now);
+    $("div#page"+(now - 1)).css("display","none");
+    $("h1#text"+(now - 1)).text(words[x+now-2][0]);
+    $("main").css("transform","rotateY(0deg)");
+    $("div#page"+now).css("display","block");
+    ii=0;
+}
 
-function choose(sx,sy) {
-    for(let i=0 ; i < sy-sx ; i++){
-        new_words.push([words[i+sx][1],words[i+sx][0]]);
-        console.log(new_words[i]);
+function draw_before(){
+    console.log(now);
+    $("div#page"+(now + 1)).css("display","none");
+    $("h1#text"+(now + 1)).text(words[x+now][0]);
+    $("main").css("transform","rotateY(0deg)");
+    $("div#page"+now).css("display","block");
+    ii=0;
+}
+
+function draw_right() {
+    now++;
+    $("main").css("transform","rotateY(90deg)");
+    setTimeout(draw_after,300);
+}
+
+function draw_left(){
+    now--;
+    $("main").css("transform","rotateY(90deg)");
+    setTimeout(draw_before,300);
+}
+
+//回転
+function draw_turn0 (){
+    $("h1#text"+now).text(words[x+now-1][1]);
+    $("main").css("transform","rotateX(0deg)");
+}
+
+function draw_turn1 (){
+    $("h1#text"+now).text(words[x+now-1][0]);
+    $("main").css("transform","rotateX(0deg)");
+}
+
+function draw_turn(){
+    if(ii === 0){
+        $("main").css("transform","rotateX(90deg)");
+        setTimeout(draw_turn0,300);
+        console.log(ii);
+        ii++;
+    }
+    else if(ii === 1){
+        $("main").css("transform","rotateX(90deg)");
+        setTimeout(draw_turn1,300);
+        console.log(ii);
+        ii--;
+    }
+}
+
+//スワイプ
+var xs;
+var xe;
+var dist = 30;
+
+document.body.addEventListener( "touchstart", function( event ) {
+	var touchObject = event.changedTouches[0] ;
+
+	xs = touchObject.pageX ;
+    console.log(xs);
+} ) ;
+
+document.body.addEventListener( "touchend", function( event ) {
+	var touchObject = event.changedTouches[0] ;
+
+	xe = touchObject.pageX ;
+    console.log(xe);
+
+    swipe();
+} ) ;
+
+function swipe() {
+    if(xs + dist < xe && xs - xe < 0){//左から右へ　▶
+        console.log("▶");
+        draw_left();
+    }
+    else if(xe < xs - dist && xs - xe > 0){//右から左へ　◀
+        console.log("◀");
+        draw_right();
+    }
+    else if(xe === xe){
+        console.log("■");
+        draw_turn();
     }
 }
 
 //キーの処理
-var number = -1;
-
 window.addEventListener("keydown", handleKeydown);
 
 function handleKeydown(event){
@@ -134,126 +226,15 @@ function handleKeydown(event){
   console.log("押されたキーのコード : " + keyCode);
 
     if(keyCode == 39 || keyCode == 68 || keyCode == 13) {
-        if(number-1 < y){
-            $(".box").css("transform","rotateY(-90deg)");
-            setTimeout("k39()",300);
-        }
+        draw_right();
     }
 
     if(keyCode == 37|| keyCode == 65 || keyCode == 8) {
-        $(".box").css("transform","rotateY(90deg)");
-        setTimeout("k37()",300);
+        draw_left();
     }
 
     if(keyCode == 38 || keyCode == 40 || keyCode == 87 || keyCode == 83 || keyCode == 32) {
-        $(".box").css("transform","rotateX(90deg)");
-        rotate();
+        draw_turn();
     }
 
 }
-
-function k39() {
-    number++;
-    $("#text").text(new_words[number][0]);
-    $("#text").css("color","black");
-    rela = 0;
-    $(".box").css("transform","rotateY(0deg)");
-}
-function k37() {
-    number--;
-    $("#text").text(new_words[number][0]);
-    $("#text").css("color","black");
-    rela = 0;
-    $(".box").css("transform","rotateY(0deg)");
-}
-
-
-//スワイプ　タップ　の処理
-
-
-$(document).on('touchmove', function() {
-    // スワイプしたときのイベント
-    setSwipe(".box");
-});
-
-function setSwipe(elem) {
-    let t = document.querySelector(elem);
-    let startX;        // タッチ開始 x座標
-    let startY;        // タッチ開始 y座標
-    let moveX;    // スワイプ中の x座標
-    let moveY;    // スワイプ中の y座標
-    let dist = 30;    // スワイプを感知する最低距離（ピクセル単位）
-     
-    // タッチ開始時： xy座標を取得
-    t.addEventListener("touchstart", function(e) {
-        e.preventDefault();
-        startX = e.touches[0].pageX;
-        startY = e.touches[0].pageY;
-    });
-     
-    // スワイプ中： xy座標を取得
-    t.addEventListener("touchmove", function(e) {
-        e.preventDefault();
-        moveX = e.changedTouches[0].pageX;
-        moveY = e.changedTouches[0].pageY;
-    });
-     
-    // タッチ終了時： スワイプした距離から左右どちらにスワイプしたかを判定する/距離が短い場合何もしない
-    t.addEventListener("touchend", function(e) {
-        if (startX > moveX && startX > moveX + dist) {        // 右から左にスワイプ
-            // 右から左にスワイプした時の処理
-            $(".box").css("transform","rotateY(-90deg)");
-            setTimeout("k39()",300);
-        }
-        else if (startX < moveX && startX + dist < moveX) {    // 左から右にスワイプ
-            // 左から右にスワイプした時の処理
-            $(".box").css("transform","rotateY(90deg)");
-            setTimeout("k37()",300);
-        }
-    });
-}
-
-
-
-$(document).on('touchstart', function() {
-    // タップしたときのイベント
-    $(".box").css("touchend","rotateX(90deg)");
-    rotate();
-});
-
-
-var rela = 0;
-
-function rotate() {
-    if(rela === 0) {
-
-        $(".box").css("transform","rotateX(90deg)");
-        setTimeout(rela0 , 300);
-        $("#text").css("color","red");
-        
-        rela++;
-
-    }else if(rela === 1){
-
-        $(".box").css("transform","rotateX(90deg)");
-        setTimeout(rela1 , 300);
-        $("#text").css("color","black");
-        
-        rela--;
-
-    }
-}
-
-function rela0 (){
-    console.log(number);
-    $(".box").css("transform","rotateY(0deg)");
-    $("#text").text(new_words[number][1]);
-}
-
-function rela1 (){
-    $("#text").text(new_words[number][0]);
-    $(".box").css("transform","rotateY(0deg)");
-}
-
-
-console.log("更新完了です!ｋｊふぃえじ");
