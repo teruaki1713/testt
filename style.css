@@ -50,14 +50,23 @@ table {
 	border-spacing: 0;
 }
 
-div.box {
+main {
+	width: 100vw;
+}
+
+
+main {
 	height: 100vh;
 	z-index: 5;
 	transition: .3s;
 	transform: rotateY(0deg);
 }
 
-h1#text {
+div.page {
+	transition: .3s;
+}
+
+h1.text {
 	z-index: 2;
 	font-size: 60px;
 	width: 100%;
