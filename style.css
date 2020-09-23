@@ -56,7 +56,6 @@ main {
 
 
 main {
-	height: 100vh;
 	z-index: 5;
 	transition: .3s;
 	transform: rotateY(0deg);
