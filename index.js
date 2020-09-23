@@ -1,4 +1,4 @@
-console.log("JavaScriptは有効です。");
+console.log("JavaScriptは有効です！！");
 
 let words =
    [
